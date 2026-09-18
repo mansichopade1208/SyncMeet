@@ -1,6 +1,9 @@
 import dns from "dns";
 dns.setServers(["8.8.8.8"]);
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from "express";
 const app = express();
 import {createServer} from "node:http";
@@ -21,7 +24,7 @@ app.use(express.urlencoded({limit: "40kb", extended: true}));
 app.use("/api/v1/users", userRoutes);
 
 const start = async() => {
-    const connectDb = await mongoose.connect("mongodb+srv://mansichopade1208_db_user:C5ArQFL2Y9wWtsb2@cluster0.wy7rbdx.mongodb.net/")
+    const connectDb = await mongoose.connect(process.env.MONGO_URL)
     console.log("mongodb connected");
     server.listen(app.get("port"), () => {
         console.log("listening on port 8080");
